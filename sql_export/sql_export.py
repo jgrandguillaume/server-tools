@@ -69,6 +69,13 @@ class SqlExport(Model):
         'copy_options': fields.char(
             'Copy Options',
             required=True),
+        'encoding': fields.selection(
+            [('utf-8', 'utf-8'), ('utf-16', 'utf-16'),
+             ('windows-1252', 'windows-1252'), ('latin1', 'latin1'),
+             ('latin2', 'latin2'), ('big5', 'big5'), ('gb18030', 'gb18030'),
+             ('shift_jis', 'shift_jis'), ('windows-1251', 'windows-1251'),
+             ('koir8_r', 'koir8_r')], string='Encoding', required=True,
+            default='utf-8'),
         'group_ids': fields.many2many(
             'res.groups',
             'groups_sqlquery_rel',
@@ -106,7 +113,9 @@ class SqlExport(Model):
                     obj.copy_options
             cr.copy_expert(query, output)
             output.getvalue()
-            new_output = base64.b64encode(output.getvalue())
+            new_output = output.getvalue().encode(obj.encoding)
+            new_output = base64.b64encode(new_output)
+
             output.close()
             wiz = self.pool.get('sql.file.wizard').create(
                 cr, uid,

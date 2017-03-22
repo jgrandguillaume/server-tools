@@ -17,6 +17,7 @@
                         <field name="query" nolabel="1" colspan="4"/>
                         <label for="Copy Options" colspan="1"/>
                         <field name="copy_options" nolabel="1" colspan="4"/>
+                        <field name="encoding" colspan="2"/>
                     </group>
                     <group colspan="2" col="2" groups="sql_export.group_sql_request_editor">
                         <separator string="Allowed Users" colspan="1"/>
